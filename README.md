@@ -1,19 +1,21 @@
-# 🎨 useClassName 
+# 🎨 useFancy 
 
-Allows you to make your component's class-names reactive to your component state. Ideally used in conjunction with a utility-CSS framework like [Tailwind](https://tailwindcss.com/) or [Tachyons](https://tachyons.io/).
+Make your component's class-names reactive to your component state. Ideally used in conjunction with a utility-CSS framework like [Tailwind](https://tailwindcss.com/) or [Tachyons](https://tachyons.io/).
 
 ## Install
 
-- `npm install use-className` or
-- `yarn add use-className`
+- `npm install use-fancy` or
+- `yarn add use-fancy`
 
 ## Use
 
-Pass your props to the `useClassName` hook, then pass conditions to the function it returns to conditionally render certain props:
+Pass your props to the `useFancy` hook, then pass conditions to the function it returns to conditionally render certain props:
 
 ```javascript
+import useFancy from 'use-fancy'
+
 const Component = ({ color }) => {
-  const setClassName = useClassName({ color })
+  const setClassName = useFancy({ color })
   return <span className={
     setClassName({ props: { color: 'red' }, className: 'Component--red' })
   }>Hey!</span>
@@ -23,8 +25,10 @@ const Component = ({ color }) => {
 Your span will get the class-name `Component--red` if your component has the prop `color` equal to `'red'`. You can add multiple criteria:
 
 ```javascript
+import useFancy from 'use-fancy'
+
 const Component = ({ color, isDisabled }) => {
-  const setClassName = useClassName({ color, isDisabled })
+  const setClassName = useFancy({ color, isDisabled })
   return <span className={
     setClassName({
       props: {
@@ -40,8 +44,10 @@ const Component = ({ color, isDisabled }) => {
 Now the span will only have the class-name `Component--red` if it has the props `{ color: 'red', isDisabled: false }`. You can also pass more than one condition to the `setClassName` function:
 
 ```javascript
+import useFancy from 'use-fancy'
+
 const Component = ({ color, isDisabled }) => {
-  const setClassName = useClassName({ color, isDisabled })
+  const setClassName = useFancy({ color, isDisabled })
   return <span className={
     setClassName(
       {
@@ -67,8 +73,10 @@ const Component = ({ color, isDisabled }) => {
 For class-names that should always display, such as default class-names, just pass a string:
 
 ```javascript
+import useFancy from 'use-fancy'
+
 const Component = ({ color, isDisabled }) => {
-  const setClassName = useClassName({ color, isDisabled })
+  const setClassName = useFancy({ color, isDisabled })
   return <span className={
     setClassName(
       {
@@ -88,7 +96,7 @@ Here's an example of a button, built with Tailwind:
 
 ```javascript
 import React from 'react';
-import useClassName from 'use-className';
+import useFancy from 'use-fancy'
 
 const primaryPurpleClasses = {
   props: {
@@ -129,7 +137,7 @@ const defaultClasses = `
 `
 
 const Button = ({ type, color, isDisabled, label }) => {
-  const setClassName = useClassName({
+  const setClassName = useFancy({
     type,
     color,
     isDisabled,

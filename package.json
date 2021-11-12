@@ -1,6 +1,6 @@
 {
   "author": "Jon McIntosh <jonmcntsh@gmail.com>",
-  "name": "use-classname",
+  "name": "use-fancy",
   "version": "1.0.0",
   "description": "A react hook for dynamic class names from props",
   "main": "index.js",
