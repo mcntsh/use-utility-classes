@@ -131,9 +131,8 @@ const disabledClasses = {
 }
 
 const defaultClasses = `
-  bg-opacity-50 hover:bg-opacity-60
-  transition-colors duration-200 rounded-xl font-semibold
-  py-2 px-4 inline-flex
+  bg-opacity-50 transition-colors duration-200 rounded-xl
+  font-semibold py-2 px-4 inline-flex
 `
 
 const Button = ({ type, color, isDisabled, label }) => {
@@ -144,14 +143,12 @@ const Button = ({ type, color, isDisabled, label }) => {
     label
   })
 
-  const className = setClassName(
+  return <button className={setClassName(
     primaryPurpleClasses,
     primaryPurpleDisabledClasses,
     enabledClasses,
     disabledClasses,
     defaultClasses
-  );
-
-  return <button className={className}>{label}</button>
+  )}>{label}</button>
 }
 ```
