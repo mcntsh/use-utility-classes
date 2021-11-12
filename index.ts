@@ -1,5 +1,3 @@
-const CLASS_VALUE_KEY = 'className'
-
 type PropKey = string
 type PropValue = string | boolean | number | undefined | null
 type Props = Record<PropKey, PropValue>
@@ -49,7 +47,7 @@ function getClassNameFromConditions(
 ): string {
   return conditions
     .map((condition: ClassNameCondition) =>
-      (isString(condition) ? condition : condition[CLASS_VALUE_KEY]).trim()
+      (isString(condition) ? condition : condition.className).trim()
     )
     .join(' ')
 }
