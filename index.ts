@@ -1,3 +1,5 @@
+import memoize from 'lodash.memoize'
+
 type PropKey = string
 type PropValue = string | boolean | number | undefined | null
 type Props = Record<PropKey, PropValue>
@@ -60,4 +62,12 @@ function useUtilityClasses(props: Props = {}): ClassNameCreator {
   }
 }
 
-export default useUtilityClasses
+function getShallowHashFromProps(props: Props): string {
+  return Object.keys(props)
+    .map((propKey: PropKey) => `${propKey}:${props[propKey]}`)
+    .join('|')
+}
+
+export default memoize(useUtilityClasses, (props: Props = {}) =>
+  getShallowHashFromProps(props)
+)
