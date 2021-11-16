@@ -86,7 +86,7 @@ const redEnabledVariant = {
 const defaultVariant = 'font-semibold text-xs uppercase'
 
 const Component = ({ color, isDisabled }) => {
-  const setClassName = useFancy({ color, isDisabled })
+  const setClassName = useUtilityClasses({ color, isDisabled })
   return <span className={
     setClassName(redEnabledVariant, defaultVariant)
   }>Hey!</span>
