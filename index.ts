@@ -4,8 +4,8 @@ type Props = Record<PropKey, PropValue>
 
 type ClassNameCondition =
   | {
-      props?: Props
-      className: string
+      when?: Props
+      use: string
     }
   | string
 type ClassNameCreator = (...conditions: Array<ClassNameCondition>) => string
@@ -18,7 +18,7 @@ function checkConditionPasses(
   props: Props,
   condition: ClassNameCondition
 ): boolean {
-  const conditionProps = !isString(condition) && condition.props
+  const conditionProps = !isString(condition) && condition.when
   if (!conditionProps) {
     return true
   }
@@ -47,12 +47,12 @@ function getClassNameFromConditions(
 ): string {
   return conditions
     .map((condition: ClassNameCondition) =>
-      (isString(condition) ? condition : condition.className).trim()
+      (isString(condition) ? condition : condition.use).trim()
     )
     .join(' ')
 }
 
-function useClassName(props: Props = {}): ClassNameCreator {
+function useUtilityClasses(props: Props = {}): ClassNameCreator {
   return (...conditions: Array<ClassNameCondition>): string => {
     return getClassNameFromConditions(
       filterConditionsViaProps(props, conditions)
@@ -60,4 +60,4 @@ function useClassName(props: Props = {}): ClassNameCreator {
   }
 }
 
-export default useClassName
+export default useUtilityClasses

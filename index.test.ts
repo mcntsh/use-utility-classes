@@ -1,50 +1,50 @@
-import useClassName from './index'
+import useUtilityClasses from './index'
 
 test('returns a function when called with props', () => {
-  const createClassName = useClassName({ prop: true })
-  expect(typeof createClassName).toBe('function')
+  const setClassName = useUtilityClasses({ prop: true })
+  expect(typeof setClassName).toBe('function')
 })
 
 test('generates default classNames as a string', () => {
-  const createClassName = useClassName()
+  const setClassName = useUtilityClasses()
 
-  const classNames = createClassName({ className: 'a b c' })
+  const classNames = setClassName({ use: 'a b c' })
 
   expect(classNames).toBe('a b c')
 
-  const moreClassNames = createClassName(
-    { className: ' a b c' },
-    { className: 'd e fg hijk ' }
+  const moreClassNames = setClassName(
+    { use: ' a b c' },
+    { use: 'd e fg hijk ' }
   )
 
   expect(moreClassNames).toBe('a b c d e fg hijk')
 })
 
 test('uses prop values to determine classNames', () => {
-  const createClassName = useClassName({ foo: 'bar', baz: false })
+  const setClassName = useUtilityClasses({ foo: 'bar', baz: false })
 
-  const classNames = createClassName({
-    props: { foo: 'bar', baz: false },
-    className: 'a b c',
+  const classNames = setClassName({
+    when: { foo: 'bar', baz: false },
+    use: 'a b c',
   })
 
   expect(classNames).toBe('a b c')
 
-  const badClassNames = createClassName({
-    props: { foo: 'buzz' },
-    className: 'a b c',
+  const badClassNames = setClassName({
+    when: { foo: 'buzz' },
+    use: 'a b c',
   })
 
   expect(badClassNames).toBe('')
 })
 
 test('handles shorthand default classNames', () => {
-  const createClassName = useClassName({ foo: 'bar' })
+  const setClassName = useUtilityClasses({ foo: 'bar' })
 
-  const classNames = createClassName(
+  const classNames = setClassName(
     {
-      props: { foo: 'bar' },
-      className: 'a b c',
+      when: { foo: 'bar' },
+      use: 'a b c',
     },
     'default'
   )
