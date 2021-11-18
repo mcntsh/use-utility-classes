@@ -54,20 +54,41 @@ function getClassNameFromConditions(
     .join(' ')
 }
 
+function getShallowHashFromObject(object: {}): string {
+  return `${Object.keys(object).join('-')}/${Object.values(object)}`
+}
+
+function memoizeResolveSetClassName(
+  ...conditions: Array<ClassNameCondition>
+): string {
+  return conditions
+    .map((condition: ClassNameCondition) => {
+      if (isString(condition)) {
+        return condition
+      }
+
+      const whenHash = condition.when
+        ? getShallowHashFromObject(condition.when)
+        : ''
+      const useHash = condition.use
+
+      return `when:${whenHash} use:${useHash}`
+    })
+    .toString()
+}
+
 function useUtilityClasses(props: Props = {}): ClassNameCreator {
-  return (...conditions: Array<ClassNameCondition>): string => {
+  const setClassName = (...conditions: Array<ClassNameCondition>): string => {
     return getClassNameFromConditions(
       filterConditionsViaProps(props, conditions)
     )
   }
+
+  return memoize(setClassName, memoizeResolveSetClassName)
 }
 
-function getShallowHashFromProps(props: Props): string {
-  return Object.keys(props)
-    .map((propKey: PropKey) => `${propKey}:${props[propKey]}`)
-    .join('|')
+function memoizeResolveUseUtilityClasses(props: Props = {}) {
+  return getShallowHashFromObject(props)
 }
 
-export default memoize(useUtilityClasses, (props: Props = {}) =>
-  getShallowHashFromProps(props)
-)
+export default memoize(useUtilityClasses, memoizeResolveUseUtilityClasses)
