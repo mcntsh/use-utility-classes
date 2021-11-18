@@ -97,46 +97,53 @@ Otherwise just compose your styles as you would with JavaScript. Here's a real w
 
 ```javascript
 import useUtilityClasses from 'use-utility-classes'
-import {
-  cta, // uppercase text-xs font-semibold tracking-wide
-} from '../utils/classes/text'
-import {
-  disabled, // cursor-not-allowed
-} from '../utils/classes/behaviours'
+import { TEXT_CLASSES } from '../../constants/base-classes'
 
+const buttonClasses = `
+  tw-border-2 tw-rounded-md tw-px-4
+  tw-py-2 tw-transition-colors
+`
+
+const typeLoadingVariant = {
+  when: { isLoading: true },
+  use: 'tw-cursor-not-allowed tw-border-gray-300 tw-text-gray-400'
+}
 const typeDefaultVariant = {
   when: { type: 'default', isLoading: false },
-  use: `bg-black hover:bg-gray-700 text-white`
+  use: `
+    tw-border-black tw-bg-black hover:tw-bg-gray-700
+    tw-text-white
+  `
 }
 
 const typeDefaultLoadingVariant = {
   when: { type: 'default', isLoading: true },
-  use: `bg-gray-300 text-gray-400`
+  use: 'tw-bg-gray-300'
 }
 
 const typeGhostVariant = {
-  when: { type: 'ghost', isDisabled: false },
-  use: `border-2 border-black hover:bg-black hover:text-white text-black`
+  when: { type: 'ghost', isLoading: false },
+  use: `
+    tw-border-black hover:tw-bg-black hover:tw-text-white
+    tw-text-black tw-bg-white
+  `
 }
-
-const typeLoadingVariant = {
-  when: { isLoading: true },
-  use: disabled
-}
-
-const defaultClasses = `rounded-md px-4 py-2 transition-colors ${cta}`
 
 const Button = ({ type = 'default', isLoading }) => {
-  const setClassName = useUtilityClasses({ isLoading })
+  const setClassName = useUtilityClasses({ type, isLoading })
+
   const className = setClassName(
     typeDefaultVariant,
     typeDefaultLoadingVariant,
     typeGhostVariant,
-    typeLoadingVariant
-    defaultClasses,
+    typeLoadingVariant,
+    buttonClasses,
+    TEXT_CLASSES.CTA
   )
-  return <span className={
-    setClassName(redEnabledVariant, defaultVariant)
-  }>Hey!</span>
+
+  return <button className={className}>Hey!</button>
 }
+
+export default Button
 ```
+
