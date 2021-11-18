@@ -93,7 +93,7 @@ const Component = ({ color, isDisabled }) => {
 }
 ```
 
-Otherwise just compose your styles as you would with JavaScript. Here's a real world example of a button:
+Otherwise just compose your styles as you would with JavaScript. Here's a real world example of a `Button` component with a ghost/default variaton, and a loading state:
 
 ```javascript
 import useUtilityClasses from 'use-utility-classes'
