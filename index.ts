@@ -4,6 +4,10 @@ type PropKey = string
 type PropValue = string | boolean | number | undefined | null
 type Props = Record<PropKey, PropValue>
 
+type Options = {
+  debug?: boolean
+}
+
 type ClassNameCondition =
   | {
       when?: Props
@@ -14,6 +18,14 @@ type ClassNameCreator = (...conditions: Array<ClassNameCondition>) => string
 
 function isString(condition: ClassNameCondition): condition is string {
   return typeof condition === 'string'
+}
+
+function trimString(str: string): string {
+  return str.replace(/\s{2,}/g, ' ').trim()
+}
+
+function getClassNameFromCondition(condition: ClassNameCondition): string {
+  return trimString(isString(condition) ? condition : condition.use)
 }
 
 function checkConditionPasses(
@@ -35,27 +47,57 @@ function checkConditionPasses(
   )
 }
 
-function filterConditionsViaProps(
+function debugClassNameConditions(
   props: Props,
   conditions: Array<ClassNameCondition>
-): Array<ClassNameCondition> {
-  return conditions.filter((condition: ClassNameCondition) => {
-    return checkConditionPasses(props, condition)
+): Array<string> {
+  const X_CHARACTER = '×'
+  const BULL_CHARACTER = '•'
+  const NULL_SPACE = '⠀'
+
+  return conditions.map((condition: ClassNameCondition) => {
+    const className = getClassNameFromCondition(condition)
+    if (!checkConditionPasses(props, condition)) {
+      return `${X_CHARACTER}${NULL_SPACE}${className.replace(/ /g, NULL_SPACE)}`
+    }
+
+    return `${BULL_CHARACTER} ${className}`
   })
 }
 
-function trimString(str: string): string {
-  return str.replace(/\s{2,}/g, ' ').trim()
+function filterClassNameConditions(
+  props: Props,
+  conditions: Array<ClassNameCondition>
+): Array<string> {
+  return conditions.reduce(
+    (filteredConditions: Array<string>, condition: ClassNameCondition) => {
+      if (checkConditionPasses(props, condition)) {
+        return [...filteredConditions, getClassNameFromCondition(condition)]
+      }
+
+      return filteredConditions
+    },
+    []
+  )
 }
 
-function getClassNameFromConditions(
-  conditions: Array<ClassNameCondition>
+function filterConditionsViaProps(
+  props: Props,
+  conditions: Array<ClassNameCondition>,
+  options: Options
+): Array<ClassNameCondition> {
+  if (options.debug) {
+    return debugClassNameConditions(props, conditions)
+  }
+
+  return filterClassNameConditions(props, conditions)
+}
+
+function buildClassNameFromConditions(
+  conditions: Array<ClassNameCondition>,
+  options: Options
 ): string {
-  return conditions
-    .map((condition: ClassNameCondition) =>
-      trimString(isString(condition) ? condition : condition.use)
-    )
-    .join(' ')
+  return conditions.join(options.debug ? '\r\n' : ' ')
 }
 
 function getShallowHashFromObject(object: {}): string {
@@ -80,18 +122,28 @@ function memoizeResolveSetClassName(
   return conditions.map(getShallowHashFromCondition).toString()
 }
 
-function useUtilityClasses(props: Props = {}): ClassNameCreator {
+function useUtilityClasses(
+  props: Props = {},
+  options: Options = {}
+): ClassNameCreator {
   const setClassName = (...conditions: Array<ClassNameCondition>): string => {
-    return getClassNameFromConditions(
-      filterConditionsViaProps(props, conditions)
+    return buildClassNameFromConditions(
+      filterConditionsViaProps(props, conditions, options),
+      options
     )
   }
 
   return memoize(setClassName, memoizeResolveSetClassName)
 }
 
-function memoizeResolveUseUtilityClasses(props: Props = {}) {
-  return getShallowHashFromObject(props)
+function memoizeResolveUseUtilityClasses(
+  props: Props = {},
+  options: Options = {}
+) {
+  const propsHash = getShallowHashFromObject(props)
+  const optionsHash = getShallowHashFromObject(options)
+
+  return getShallowHashFromObject(`props:${propsHash} options:${optionsHash}`)
 }
 
 export default memoize(useUtilityClasses, memoizeResolveUseUtilityClasses)

@@ -57,3 +57,32 @@ test('handles shorthand default classNames', () => {
 
   expect(classNames).toBe('a b c default')
 })
+
+test('renders classNames differently when debug is true', () => {
+  const X_CHARACTER = '×'
+  const BULLET_CHARACTER = '•'
+  const NULL_SPACE = '⠀'
+  const setClassName = useUtilityClasses({ foo: 'bar' }, { debug: true })
+
+  const classNames = setClassName(
+    {
+      when: { foo: 'buzz' },
+      use: 'a b c',
+    },
+    {
+      when: { foo: 'bar' },
+      use: 'd e f',
+    },
+    {
+      when: { foo: 'baz' },
+      use: 'g',
+    }
+  )
+
+  const debugFirstClassNames = `${X_CHARACTER}${NULL_SPACE}a${NULL_SPACE}b${NULL_SPACE}c`
+  const debugSecondClassNames = `${BULLET_CHARACTER} d e f`
+  const debugThirdClassNames = `${X_CHARACTER}${NULL_SPACE}g`
+  const debugClassNames = `${debugFirstClassNames}\r\n${debugSecondClassNames}\r\n${debugThirdClassNames}`
+
+  expect(classNames).toBe(debugClassNames)
+})
