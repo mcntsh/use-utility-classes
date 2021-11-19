@@ -15,10 +15,15 @@ Pass your props to the `useUtilityClasses` hook, then pass conditions to the fun
 import useUtilityClasses from 'use-utility-classes'
 
 const Component = ({ color }) => {
+  // Watch the value for the prop `color`
   const setClassName = useUtilityClasses({ color })
-  return <span className={
-    setClassName({ when: { color: 'red' }, use: 'text-red-500' })
-  }>Hey!</span>
+  // Set the class `text-red-500` when the value is `red`
+  const className = setClassName({
+    when: { color: 'red' },
+    use: 'text-red-500'
+  })
+
+  return <span className={className}>Hey!</span>
 }
 ```
 
@@ -28,16 +33,18 @@ You can add multiple criteria:
 import useUtilityClasses from 'use-utility-classes'
 
 const Component = ({ color, isDisabled }) => {
+  // Watch the value for the following props:
   const setClassName = useUtilityClasses({ color, isDisabled })
-  return <span className={
-    setClassName({
-      when: {
-        color: 'red',
-        isDisabled: false
-      },
-      use: 'text-red-500'
-    })
-  }>Hey!</span>
+  // Only set the class when the color is red *and* the component is not disabled
+  const className = setClassName({
+    when: {
+      color: 'red',
+      isDisabled: false
+    },
+    use: 'text-red-500'
+  })
+
+  return <span className={className}>Hey!</span>
 }
 ```
 
@@ -64,9 +71,9 @@ const redDisabledVariant = {
 
 const Component = ({ color, isDisabled }) => {
   const setClassName = useUtilityClasses({ color, isDisabled })
-  return <span className={
-    setClassName(redEnabledVariant, redDisabledVariant)}
-  >Hey!</span>
+  const className = setClassName(redEnabledVariant, redDisabledVariant)
+
+  return <span className={className}>Hey!</span>
 }
 ```
 
@@ -83,17 +90,29 @@ const redEnabledVariant = {
   use: 'text-red-500'
 }
 
-const defaultVariant = 'font-semibold text-xs uppercase'
+const redDisabledVariant = {
+  when: {
+    color: 'red',
+    isDisabled: true
+  },
+  use: 'text-red-300 cursor-not-allowed'
+}
+
+const defaultClasses = 'font-semibold text-xs uppercase'
 
 const Component = ({ color, isDisabled }) => {
   const setClassName = useUtilityClasses({ color, isDisabled })
-  return <span className={
-    setClassName(redEnabledVariant, defaultVariant)
-  }>Hey!</span>
+  const className = setClassName(
+    redEnabledVariant,
+    redDisabledVariant,
+    defaultClasses
+  )
+
+  return <span className={className}>Hey!</span>
 }
 ```
 
-Otherwise just compose your styles as you would with JavaScript. Here's a real world example of a `Button` component with a ghost/default variaton, and a loading state:
+Here's a real world example of a `Button` component using Tailwind, with a ghost/default variaton and a loading state:
 
 ```javascript
 import useUtilityClasses from 'use-utility-classes'
@@ -108,6 +127,7 @@ const typeLoadingVariant = {
   when: { isLoading: true },
   use: 'tw-cursor-not-allowed tw-border-gray-300 tw-text-gray-400'
 }
+
 const typeDefaultVariant = {
   when: { type: 'default', isLoading: false },
   use: `
@@ -143,16 +163,21 @@ const Button = ({ type = 'default', isLoading }) => {
 
   return <button className={className}>Hey!</button>
 }
-
-export default Button
 ```
 
 ## Debugging
 
-Debugging utility classes can be hard when you look at the DOM. You can pass a debug option to make the classes more legible while you're doing development:
+Debugging utility classes can be hard when you look at the DOM. You can pass an option to make the classes more legible while you're doing development:
 
 ```javascript
-useUtilityClasses({ /* ... */ }, { debug: true })
+import useUtilityClasses from 'use-utility-classes'
+
+const Component = props => {
+  const setClassName = useUtilityClasses(props, { debug: true })
+  const className = setClassName(...variants)
+
+  return <button className={className}>Hey!</button>
+}
 ```
 
 When your className is rendered in the DOM, it will list out the enabled *and* the disabled classes by the order they were passed to the `setClassName` function:
