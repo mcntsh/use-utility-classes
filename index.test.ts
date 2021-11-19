@@ -14,10 +14,16 @@ test('generates default classNames as a string', () => {
 
   const moreClassNames = setClassName(
     { use: ' a b c' },
-    { use: 'd e fg hijk ' }
+    { use: 'd e fg hijk ' },
+    ` foo 
+     bar baz
+    buz
+
+    biff 
+                         boing`
   )
 
-  expect(moreClassNames).toBe('a b c d e fg hijk')
+  expect(moreClassNames).toBe('a b c d e fg hijk foo bar baz buz biff boing')
 })
 
 test('uses prop values to determine classNames', () => {

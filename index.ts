@@ -44,37 +44,40 @@ function filterConditionsViaProps(
   })
 }
 
+function trimString(str: string): string {
+  return str.replace(/\s{2,}/g, ' ').trim()
+}
+
 function getClassNameFromConditions(
   conditions: Array<ClassNameCondition>
 ): string {
   return conditions
     .map((condition: ClassNameCondition) =>
-      (isString(condition) ? condition : condition.use).trim()
+      trimString(isString(condition) ? condition : condition.use)
     )
     .join(' ')
 }
 
 function getShallowHashFromObject(object: {}): string {
-  return `${Object.keys(object).join('-')}/${Object.values(object)}`
+  return `${Object.keys(object).join('-')}/${Object.values(object).join('-')}`
+}
+
+function getShallowHashFromCondition(condition: ClassNameCondition): string {
+  if (isString(condition)) {
+    return condition
+  }
+
+  const whenHash = condition.when
+    ? getShallowHashFromObject(condition.when)
+    : ''
+
+  return `when:${whenHash} use:${condition.use}`
 }
 
 function memoizeResolveSetClassName(
   ...conditions: Array<ClassNameCondition>
 ): string {
-  return conditions
-    .map((condition: ClassNameCondition) => {
-      if (isString(condition)) {
-        return condition
-      }
-
-      const whenHash = condition.when
-        ? getShallowHashFromObject(condition.when)
-        : ''
-      const useHash = condition.use
-
-      return `when:${whenHash} use:${useHash}`
-    })
-    .toString()
+  return conditions.map(getShallowHashFromCondition).toString()
 }
 
 function useUtilityClasses(props: Props = {}): ClassNameCreator {
