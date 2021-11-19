@@ -147,3 +147,23 @@ const Button = ({ type = 'default', isLoading }) => {
 export default Button
 ```
 
+## Debugging
+
+Debugging utility classes can be hard when you look at the DOM. You can pass a debug option to make the classes more legible while you're doing development:
+
+```javascript
+useUtilityClasses({ /* ... */ }, { debug: true })
+```
+
+When your className is rendered in the DOM, it will list out the enabled *and* the disabled classes by the order they were passed to the `setClassName` function:
+
+```html
+<button class="
+×⠀tw-border-black⠀tw-bg-black⠀hover:tw-bg-gray-700⠀tw-text-white
+×⠀tw-bg-gray-300
+×⠀tw-border-black⠀hover:tw-bg-black⠀hover:tw-text-white⠀tw-text-black⠀tw-bg-white
+• tw-cursor-not-allowed tw-border-gray-300 tw-text-gray-400
+• tw-border-2 tw-rounded-md tw-px-4 tw-py-2 tw-transition-colors
+• tw-uppercase tw-text-xs tw-font-semibold tw-tracking-wide">Hey!</button>
+```
+
