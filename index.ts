@@ -97,7 +97,11 @@ function buildClassNameFromConditions(
   conditions: Array<ClassNameCondition>,
   options: Options
 ): string {
-  return conditions.join(options.debug ? '\r\n' : ' ')
+  if (options.debug) {
+    return `\r\n${conditions.join('\r\n')}`
+  }
+
+  return conditions.join(' ')
 }
 
 function getShallowHashFromObject(object: {}): string {

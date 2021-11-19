@@ -82,7 +82,7 @@ test('renders classNames differently when debug is true', () => {
   const debugFirstClassNames = `${X_CHARACTER}${NULL_SPACE}a${NULL_SPACE}b${NULL_SPACE}c`
   const debugSecondClassNames = `${BULLET_CHARACTER} d e f`
   const debugThirdClassNames = `${X_CHARACTER}${NULL_SPACE}g`
-  const debugClassNames = `${debugFirstClassNames}\r\n${debugSecondClassNames}\r\n${debugThirdClassNames}`
+  const debugClassNames = `\r\n${debugFirstClassNames}\r\n${debugSecondClassNames}\r\n${debugThirdClassNames}`
 
   expect(classNames).toBe(debugClassNames)
 })
