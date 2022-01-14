@@ -5,6 +5,7 @@ type PropValue = string | boolean | number | undefined | null
 type Props = Record<PropKey, PropValue>
 
 type Options = {
+  prefix?: string
   debug?: boolean
 }
 
@@ -24,8 +25,16 @@ function trimString(str: string): string {
   return str.replace(/\s{2,}/g, ' ').trim()
 }
 
-function getClassNameFromCondition(condition: ClassNameCondition): string {
-  return trimString(isString(condition) ? condition : condition.use)
+function getClassNameFromCondition(
+  condition: ClassNameCondition,
+  options: Options
+): string {
+  const className = trimString(isString(condition) ? condition : condition.use)
+  if (options.prefix) {
+    return className.replace(/((?!\w+:)[A-Za-z0-9-_]+)/g, `${options.prefix}$1`)
+  }
+
+  return className
 }
 
 function checkConditionPasses(
@@ -49,14 +58,15 @@ function checkConditionPasses(
 
 function debugClassNameConditions(
   props: Props,
-  conditions: Array<ClassNameCondition>
+  conditions: Array<ClassNameCondition>,
+  options: Options
 ): Array<string> {
   const X_CHARACTER = '×'
   const BULL_CHARACTER = '•'
   const NULL_SPACE = '⠀'
 
   return conditions.map((condition: ClassNameCondition) => {
-    const className = getClassNameFromCondition(condition)
+    const className = getClassNameFromCondition(condition, options)
     if (!checkConditionPasses(props, condition)) {
       return `${X_CHARACTER}${NULL_SPACE}${className.replace(/ /g, NULL_SPACE)}`
     }
@@ -67,12 +77,16 @@ function debugClassNameConditions(
 
 function filterClassNameConditions(
   props: Props,
-  conditions: Array<ClassNameCondition>
+  conditions: Array<ClassNameCondition>,
+  options: Options
 ): Array<string> {
   return conditions.reduce(
     (filteredConditions: Array<string>, condition: ClassNameCondition) => {
       if (checkConditionPasses(props, condition)) {
-        return [...filteredConditions, getClassNameFromCondition(condition)]
+        return [
+          ...filteredConditions,
+          getClassNameFromCondition(condition, options),
+        ]
       }
 
       return filteredConditions
@@ -87,10 +101,10 @@ function filterConditionsViaProps(
   options: Options
 ): Array<ClassNameCondition> {
   if (options.debug) {
-    return debugClassNameConditions(props, conditions)
+    return debugClassNameConditions(props, conditions, options)
   }
 
-  return filterClassNameConditions(props, conditions)
+  return filterClassNameConditions(props, conditions, options)
 }
 
 function buildClassNameFromConditions(

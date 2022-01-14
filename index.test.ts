@@ -58,6 +58,16 @@ test('handles shorthand default classNames', () => {
   expect(classNames).toBe('a b c default')
 })
 
+test('renders classNames with prefixes when prefix option is set', () => {
+  const setClassName = useUtilityClasses({}, { prefix: 'tw-' })
+
+  const classNames = setClassName('a b c hover:abc defg-hi jklmn_opq', 'rs')
+
+  expect(classNames).toBe(
+    'tw-a tw-b tw-c hover:tw-abc tw-defg-hi tw-jklmn_opq tw-rs'
+  )
+})
+
 test('renders classNames differently when debug is true', () => {
   const X_CHARACTER = '×'
   const BULLET_CHARACTER = '•'

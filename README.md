@@ -165,6 +165,23 @@ const Button = ({ type = 'default', isLoading }) => {
 }
 ```
 
+## Prefixes
+
+You can pass a `prefix` option if you'd like a prefix automatically appended to your utility classes:
+
+```javascript
+import useUtilityClasses from 'use-utility-classes'
+
+const Component = props => {
+  const setClassName = useUtilityClasses(props, { prefix: 'tw-' })
+  const className = setClassName('border-black bg-black hover:bg-gray-700 text-white')
+
+  return <button className={className}>Hey!</button>
+}
+
+// <button class="tw-border-black tw-bg-black hover:tw-bg-gray-700 tw-text-white"
+```
+
 ## Debugging
 
 Debugging utility classes can be hard when you look at the DOM. You can pass an option to make the classes more legible while you're doing development:
