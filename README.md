@@ -191,7 +191,12 @@ import useUtilityClasses from 'use-utility-classes'
 
 const Component = props => {
   const setClassName = useUtilityClasses(props, { debug: true })
-  const className = setClassName(...variants)
+  
+  const className = setClassName(
+    'uppercase text-xs font-semibold tracking-wide
+    { when: { isLoading: true }, use: 'text-gray-300 cursor-not-allowed' },
+    { when: { isLoading: false }, use: 'text-black cursor-pointer'
+  )
 
   return <button className={className}>Hey!</button>
 }
@@ -200,23 +205,17 @@ const Component = props => {
 When your className is rendered in the DOM, it will list out the enabled *and* the disabled classes by the order they were passed to the `setClassName` function:
 
 ```html
-<!-- props: { isLoading: false, type: 'default' } -->
+<!-- props: { isLoading: false } -->
 
 <button class="
-• tw-border-black tw-bg-black hover:tw-bg-gray-700 tw-text-white
-×⠀tw-bg-gray-300
-×⠀tw-border-black⠀hover:tw-bg-black⠀hover:tw-text-white⠀tw-text-black⠀tw-bg-white
-×⠀tw-cursor-not-allowed⠀tw-border-gray-300⠀tw-text-gray-400
-• tw-border-2 tw-rounded-md tw-px-4 tw-py-2 tw-transition-colors
-• tw-uppercase tw-text-xs tw-font-semibold tw-tracking-wide">Hey!</button>
+• uppercase text-xs font-semibold tracking-wide
+×⠀text-gray-300⠀cursor-not-allowed
+• text-black cursor-pointer">Hey!</button>
 
-<!-- props: { isLoading: true, type: 'default' } -->
+<!-- props: { isLoading: true } -->
 
 <button class="
-×⠀tw-border-black⠀tw-bg-black⠀hover:tw-bg-gray-700⠀tw-text-white
-• tw-bg-gray-300
-×⠀tw-border-black⠀hover:tw-bg-black⠀hover:tw-text-white⠀tw-text-black⠀tw-bg-white
-• tw-cursor-not-allowed tw-border-gray-300 tw-text-gray-400
-• tw-border-2 tw-rounded-md tw-px-4 tw-py-2 tw-transition-colors
-• tw-uppercase tw-text-xs tw-font-semibold tw-tracking-wide">Hey!</button>
+• uppercase text-xs font-semibold tracking-wide
+• text-gray-300 cursor-not-allowed
+×⠀text-black⠀cursor-pointer">Hey!</button>
 ```
