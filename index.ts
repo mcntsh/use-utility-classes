@@ -123,7 +123,7 @@ function buildClassNameFromConditions(
 }
 
 function getShallowHashFromObject(object: {}): string {
-  return `${Object.keys(object).join('-')}/${Object.values(object).join('-')}`
+  return Object.entries(object).toString()
 }
 
 function getShallowHashFromCondition(condition: ClassNameCondition): string {
