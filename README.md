@@ -179,7 +179,7 @@ const Component = props => {
   return <button className={className}>Hey!</button>
 }
 
-// <button class="tw-border-black tw-bg-black hover:tw-bg-gray-700 tw-text-white"
+// <button class="tw-border-black tw-bg-black hover:tw-bg-gray-700 tw-text-white">Hey!</button>
 ```
 
 ## Debugging
