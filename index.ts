@@ -25,13 +25,17 @@ function trimString(str: string): string {
   return str.replace(/\s{2,}/g, ' ').trim()
 }
 
+function prefixString(str: string, prefix: string): string {
+  return str.replace(/((?!\w+:)[A-Za-z0-9-_]+)/g, `${prefix}$1`)
+}
+
 function getClassNameFromCondition(
   condition: ClassNameCondition,
   options: Options
 ): string {
   const className = trimString(isString(condition) ? condition : condition.use)
   if (options.prefix) {
-    return className.replace(/((?!\w+:)[A-Za-z0-9-_]+)/g, `${options.prefix}$1`)
+    return prefixString(className, options.prefix)
   }
 
   return className
