@@ -205,14 +205,14 @@ const Component = props => {
 When your className is rendered in the DOM, it will list out the enabled *and* the disabled classes by the order they were passed to the `setClassName` function:
 
 ```html
-<!-- props: { isLoading: false } -->
+<!-- <Component isLoading={false} /> -->
 
 <button class="
 • uppercase text-xs font-semibold tracking-wide
 ×⠀text-gray-300⠀cursor-not-allowed
 • text-black cursor-pointer">Hey!</button>
 
-<!-- props: { isLoading: true } -->
+<!-- <Component isLoading={true} /> -->
 
 <button class="
 • uppercase text-xs font-semibold tracking-wide
