@@ -193,7 +193,7 @@ const Component = props => {
   const setClassName = useUtilityClasses(props, { debug: true })
   
   const className = setClassName(
-    'uppercase text-xs font-semibold tracking-wide
+    'uppercase text-xs font-semibold tracking-wide',
     { when: { isLoading: true }, use: 'text-gray-300 cursor-not-allowed' },
     { when: { isLoading: false }, use: 'text-black cursor-pointer'
   )
