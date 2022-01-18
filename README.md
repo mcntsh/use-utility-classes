@@ -195,7 +195,7 @@ const Component = props => {
   const className = setClassName(
     'uppercase text-xs font-semibold tracking-wide',
     { when: { isLoading: true }, use: 'text-gray-300 cursor-not-allowed' },
-    { when: { isLoading: false }, use: 'text-black cursor-pointer'
+    { when: { isLoading: false }, use: 'text-black cursor-pointer' }
   )
 
   return <button className={className}>Hey!</button>
