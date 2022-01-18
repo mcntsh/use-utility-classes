@@ -25,11 +25,10 @@ const Component = ({ color }) => {
 
   return <span className={className} />
 }
-
-<!-- <Component color='red' /> => <span class="text-red-500" /> -->
-<!-- <Component color='blue' /> => <span /> -->
-
-
+```
+```javascript
+<Component color='red' /> // <span class="text-red-500" />
+<Component color='blue' />  // <span />
 ```
 
 You can add multiple criteria:
@@ -51,10 +50,10 @@ const Component = ({ color, isDisabled }) => {
 
   return <span className={className} />
 }
-
-<!-- <Component color='red' isDisabled={true} /> => <span class="text-red-500" /> -->
-<!-- <Component color='red' isDisabled={false} /> => <span /> -->
-
+```
+```javascript
+<Component color='red' isDisabled={true} /> // <span class="text-red-500" /> 
+<Component color='red' isDisabled={false} /> => <span />
 ```
 
 You can also pass more than one condition to the `setClassName` function:
@@ -84,10 +83,10 @@ const Component = ({ color, isDisabled }) => {
 
   return <span className={className} />
 }
-
-<!-- <Component color='red' isDisabled={false} /> => <span class="text-red-500" /> -->
-<!-- <Component color='red' isDisabled={true} /> => <span class="text-red-300 cursor-not-allowed" /> -->
-
+```
+```javascript
+<Component color='red' isDisabled={false} /> // <span class="text-red-500" />
+<Component color='red' isDisabled={true} /> // <span class="text-red-300 cursor-not-allowed" />
 ```
 
 For class-names that should always display, just pass a string:
@@ -123,10 +122,10 @@ const Component = ({ color, isDisabled }) => {
 
   return <span className={className} />
 }
-
-<!-- <Component color='red' isDisabled={true} /> => <span class="text-red-300 cursor-not-allowed font-semibold text-xs uppercase" /> -->
-<!-- <Component /> => <span class="font-semibold text-xs uppercase" /> -->
-
+```
+```javascript
+<Component color='red' isDisabled={true} /> // <span class="text-red-300 cursor-not-allowed font-semibold text-xs uppercase" />
+<Component /> // <span class="font-semibold text-xs uppercase" />
 ```
 
 Here's a real world example of a `Button` component using Tailwind, with a ghost/default variaton and a loading state:
@@ -195,8 +194,9 @@ const Component = props => {
 
   return <button className={className} />
 }
-
-<!-- <Component /> => <span class="tw-border-black tw-bg-black hover:tw-bg-gray-700 tw-text-white" /> -->
+```
+```javascript
+<Component /> // <span class="tw-border-black tw-bg-black hover:tw-bg-gray-700 tw-text-white" />
 ```
 
 ## Debugging
@@ -221,18 +221,22 @@ const Component = props => {
 
 When your className is rendered in the DOM, it will list out the enabled *and* the disabled classes by the order they were passed to the `setClassName` function:
 
-```html
-<!-- <Component isLoading={false} /> -->
+```javascript
+<Component isLoading={false} />
 
+/*
 <span class="
 • uppercase text-xs font-semibold tracking-wide
 ×⠀text-gray-300⠀cursor-not-allowed
 • text-black cursor-pointer"></span>
+*/
 
-<!-- <Component isLoading={true} /> -->
+<Component isLoading={true} />
 
+/*
 <span class="
 • uppercase text-xs font-semibold tracking-wide
 • text-gray-300 cursor-not-allowed
 ×⠀text-black⠀cursor-pointer"></span>
+*/
 ```
