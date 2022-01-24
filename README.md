@@ -196,11 +196,13 @@ const Component = props => {
     use: 'text-red-500'
   })
   
-  return <button className={className}>{props.children}</button> 
+  return <span className={className} />
 }
 
-// You have to wrap your component in the HOC!
-export default withSetClassName(Component)
+const WrappedComponent = withSetClassName(Component /*, { debug: true, prefix: 'tw-' } */)
+```
+```javascript
+<WrappedComponent color='red' isDisabled={false} /> // <span class="text-red-500"></span>
 ```
 
 ## Prefixes
