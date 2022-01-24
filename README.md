@@ -23,8 +23,12 @@ const Component = ({ color }) => {
     use: 'text-red-500'
   })
 
-  return <span className={className}>Hey!</span>
+  return <span className={className} />
 }
+```
+```javascript
+<Component color='red' /> // <span class="text-red-500" />
+<Component color='blue' />  // <span />
 ```
 
 You can add multiple criteria:
@@ -44,8 +48,12 @@ const Component = ({ color, isDisabled }) => {
     use: 'text-red-500'
   })
 
-  return <span className={className}>Hey!</span>
+  return <span className={className} />
 }
+```
+```javascript
+<Component color='red' isDisabled={true} /> // <span class="text-red-500" /> 
+<Component color='red' isDisabled={false} /> => <span />
 ```
 
 You can also pass more than one condition to the `setClassName` function:
@@ -73,11 +81,15 @@ const Component = ({ color, isDisabled }) => {
   const setClassName = useUtilityClasses({ color, isDisabled })
   const className = setClassName(redEnabledVariant, redDisabledVariant)
 
-  return <span className={className}>Hey!</span>
+  return <span className={className} />
 }
 ```
+```javascript
+<Component color='red' isDisabled={false} /> // <span class="text-red-500" />
+<Component color='red' isDisabled={true} /> // <span class="text-red-300 cursor-not-allowed" />
+```
 
-For class-names that should always display, such as default class-names, just pass a string:
+For class-names that should always display, just pass a string:
 
 ```javascript
 import useUtilityClasses from 'use-utility-classes'
@@ -108,8 +120,12 @@ const Component = ({ color, isDisabled }) => {
     defaultClasses
   )
 
-  return <span className={className}>Hey!</span>
+  return <span className={className} />
 }
+```
+```javascript
+<Component color='red' isDisabled={true} /> // <span class="text-red-300 cursor-not-allowed font-semibold text-xs uppercase" />
+<Component /> // <span class="font-semibold text-xs uppercase" />
 ```
 
 Here's a real world example of a `Button` component using Tailwind, with a ghost/default variaton and a loading state:
@@ -149,7 +165,7 @@ const typeGhostVariant = {
   `
 }
 
-const Button = ({ type = 'default', isLoading }) => {
+const Button = ({ type = 'default', isLoading, children }) => {
   const setClassName = useUtilityClasses({ type, isLoading })
 
   const className = setClassName(
@@ -161,7 +177,7 @@ const Button = ({ type = 'default', isLoading }) => {
     TEXT_CLASSES.CTA
   )
 
-  return <button className={className}>Hey!</button>
+  return <button className={className}>{children}</button>
 }
 ```
 
@@ -176,10 +192,11 @@ const Component = props => {
   const setClassName = useUtilityClasses(props, { prefix: 'tw-' })
   const className = setClassName('border-black bg-black hover:bg-gray-700 text-white')
 
-  return <button className={className}>Hey!</button>
+  return <button className={className} />
 }
-
-// <button class="tw-border-black tw-bg-black hover:tw-bg-gray-700 tw-text-white"
+```
+```javascript
+<Component /> // <span class="tw-border-black tw-bg-black hover:tw-bg-gray-700 tw-text-white" />
 ```
 
 ## Debugging
@@ -191,32 +208,35 @@ import useUtilityClasses from 'use-utility-classes'
 
 const Component = props => {
   const setClassName = useUtilityClasses(props, { debug: true })
-  const className = setClassName(...variants)
+  
+  const className = setClassName(
+    'uppercase text-xs font-semibold tracking-wide',
+    { when: { isLoading: true }, use: 'text-gray-300 cursor-not-allowed' },
+    { when: { isLoading: false }, use: 'text-black cursor-pointer' }
+  )
 
-  return <button className={className}>Hey!</button>
+  return <span className={className} />
 }
 ```
 
 When your className is rendered in the DOM, it will list out the enabled *and* the disabled classes by the order they were passed to the `setClassName` function:
 
-```html
-<!-- props: { isLoading: false, type: 'default' } -->
+```javascript
+<Component isLoading={false} />
 
-<button class="
-• tw-border-black tw-bg-black hover:tw-bg-gray-700 tw-text-white
-×⠀tw-bg-gray-300
-×⠀tw-border-black⠀hover:tw-bg-black⠀hover:tw-text-white⠀tw-text-black⠀tw-bg-white
-×⠀tw-cursor-not-allowed⠀tw-border-gray-300⠀tw-text-gray-400
-• tw-border-2 tw-rounded-md tw-px-4 tw-py-2 tw-transition-colors
-• tw-uppercase tw-text-xs tw-font-semibold tw-tracking-wide">Hey!</button>
+/*
+<span class="
+• uppercase text-xs font-semibold tracking-wide
+×⠀text-gray-300⠀cursor-not-allowed
+• text-black cursor-pointer"></span>
+*/
 
-<!-- props: { isLoading: true, type: 'default' } -->
+<Component isLoading={true} />
 
-<button class="
-×⠀tw-border-black⠀tw-bg-black⠀hover:tw-bg-gray-700⠀tw-text-white
-• tw-bg-gray-300
-×⠀tw-border-black⠀hover:tw-bg-black⠀hover:tw-text-white⠀tw-text-black⠀tw-bg-white
-• tw-cursor-not-allowed tw-border-gray-300 tw-text-gray-400
-• tw-border-2 tw-rounded-md tw-px-4 tw-py-2 tw-transition-colors
-• tw-uppercase tw-text-xs tw-font-semibold tw-tracking-wide">Hey!</button>
+/*
+<span class="
+• uppercase text-xs font-semibold tracking-wide
+• text-gray-300 cursor-not-allowed
+×⠀text-black⠀cursor-pointer"></span>
+*/
 ```
