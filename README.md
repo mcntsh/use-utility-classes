@@ -2,6 +2,14 @@
 
 Make your component's class-names reactive to your component state. Ideally used in conjunction with a utility-CSS framework like [Tailwind](https://tailwindcss.com/) or [Tachyons](https://tachyons.io/).
 
+------
+
+1. [Install](#install)
+2. [Use](#use)
+3. [HOC](#hoc)
+4. [Prefixes](#prefixes)
+5. [Debugging](#debugging)
+
 ## Install
 
 - `npm install use-utility-classes` or
