@@ -180,6 +180,28 @@ const Button = ({ type = 'default', isLoading, children }) => {
   return <button className={className}>{children}</button>
 }
 ```
+## HOC
+
+An HOC helper is also included in this package. It can be used like so:
+
+```javascript
+import withSetClassName from 'use-utility-classes/react'
+
+const Component = props => {
+  const className = props.setClassName({
+    when: {
+      color: 'red',
+      isDisabled: false
+    },
+    use: 'text-red-500'
+  })
+  
+  return <button className={className}>{props.children}</button> 
+}
+
+// You have to wrap your component in the HOC!
+export default withSetClassName(Component)
+```
 
 ## Prefixes
 
