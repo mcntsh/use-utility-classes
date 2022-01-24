@@ -190,7 +190,7 @@ const Button = ({ type = 'default', isLoading, children }) => {
 ```
 ## HOC
 
-An HOC helper is also included in this package. It can be used like so:
+An HOC helper is also included in this package which will pass the hook via props. It can be used like so:
 
 ```javascript
 import withSetClassName from 'use-utility-classes/react'
