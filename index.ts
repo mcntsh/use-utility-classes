@@ -4,7 +4,7 @@ type PropKey = string
 type PropValue = string | boolean | number | undefined | null
 type Props = Record<PropKey, PropValue>
 
-type Options = {
+export type Options = {
   prefix?: string
   debug?: boolean
 }
@@ -15,7 +15,9 @@ type ClassNameCondition =
       use: string
     }
   | string
-type ClassNameCreator = (...conditions: Array<ClassNameCondition>) => string
+export type ClassNameCreator = (
+  ...conditions: Array<ClassNameCondition>
+) => string
 
 function isString(condition: ClassNameCondition): condition is string {
   return typeof condition === 'string'

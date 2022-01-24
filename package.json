@@ -12,16 +12,27 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
     "@types/jest": "^27.0.2",
+    "@types/lodash.isobjectlike": "^4.0.6",
     "@types/lodash.memoize": "^4.1.6",
+    "@types/lodash.omitby": "^4.6.6",
+    "@types/react": "^17.0.38",
+    "@types/react-test-renderer": "^17.0.1",
+    "babel-jest": "^27.4.6",
     "jest": "^27.3.1",
     "prettier": "^2.3.1",
-    "react": "^17.0.2",
+    "react-test-renderer": "^17.0.2",
     "ts-jest": "^27.0.7",
     "tslint": "^6.1.3",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "react-dom": "^17.0.2"
   },
   "dependencies": {
-    "lodash.memoize": "^4.1.2"
+    "lodash.isobjectlike": "^4.0.0",
+    "lodash.memoize": "^4.1.2",
+    "lodash.omitby": "^4.6.0",
+    "react": "^17.0.2"
   }
 }

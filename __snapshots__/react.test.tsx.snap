@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`passes the debug option to the setClassName helper 1`] = `
+<div
+  className="
+• a
+• ab"
+  color="B"
+  id="3"
+>
+  <div
+    className="child"
+  >
+    Type color classes
+  </div>
+</div>
+`;
+
+exports[`passes the prefix option to the setClassName helper 1`] = `
+<div
+  className="tw-a tw-ab"
+  color="B"
+  id="3"
+>
+  <div
+    className="child"
+  >
+    Type color classes
+  </div>
+</div>
+`;
+
+exports[`passes the setClassName helper and reacts to prop changes 1`] = `
+Array [
+  <div
+    className=""
+    color="D"
+    id="1"
+  >
+    <div
+      className="child"
+    >
+      No classes
+    </div>
+  </div>,
+  <div
+    className="a"
+    color="D"
+    id="2"
+  >
+    <div
+      className="child"
+    >
+      Type classes
+    </div>
+  </div>,
+  <div
+    className="a ab"
+    color="B"
+    id="3"
+  >
+    <div
+      className="child"
+    >
+      Type color classes
+    </div>
+  </div>,
+]
+`;
+
+exports[`renders the wrapped component as you would expect using the withSetClassName HOC 1`] = `
+<div
+  className=""
+  id="foo"
+>
+  <div
+    className="child"
+  >
+    Hello!
+  </div>
+</div>
+`;
