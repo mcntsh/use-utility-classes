@@ -133,61 +133,10 @@ const Component = ({ color, isDisabled }) => {
 ```
 ```javascript
 <Component color='red' isDisabled={true} /> // <span class="text-red-300 cursor-not-allowed font-semibold text-xs uppercase" />
+<Component color='red' isDisabled={false} /> // <span class="text-red-500 cursor-not-allowed font-semibold text-xs uppercase" />
 <Component /> // <span class="font-semibold text-xs uppercase" />
 ```
 
-Here's a real world example of a `Button` component using Tailwind, with a ghost/default variaton and a loading state:
-
-```javascript
-import useUtilityClasses from 'use-utility-classes'
-import { TEXT_CLASSES } from '../../constants/base-classes'
-
-const buttonClasses = `
-  tw-border-2 tw-rounded-md tw-px-4
-  tw-py-2 tw-transition-colors
-`
-
-const typeLoadingVariant = {
-  when: { isLoading: true },
-  use: 'tw-cursor-not-allowed tw-border-gray-300 tw-text-gray-400'
-}
-
-const typeDefaultVariant = {
-  when: { type: 'default', isLoading: false },
-  use: `
-    tw-border-black tw-bg-black hover:tw-bg-gray-700
-    tw-text-white
-  `
-}
-
-const typeDefaultLoadingVariant = {
-  when: { type: 'default', isLoading: true },
-  use: 'tw-bg-gray-300'
-}
-
-const typeGhostVariant = {
-  when: { type: 'ghost', isLoading: false },
-  use: `
-    tw-border-black hover:tw-bg-black hover:tw-text-white
-    tw-text-black tw-bg-white
-  `
-}
-
-const Button = ({ type = 'default', isLoading, children }) => {
-  const setClassName = useUtilityClasses({ type, isLoading })
-
-  const className = setClassName(
-    typeDefaultVariant,
-    typeDefaultLoadingVariant,
-    typeGhostVariant,
-    typeLoadingVariant,
-    buttonClasses,
-    TEXT_CLASSES.CTA
-  )
-
-  return <button className={className}>{children}</button>
-}
-```
 ## HOC
 
 An HOC helper is also included in this package which will pass the hook via props. It can be used like so:
