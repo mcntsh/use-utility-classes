@@ -133,7 +133,7 @@ const Component = ({ color, isDisabled }) => {
 ```
 ```javascript
 <Component color='red' isDisabled={true} /> // <span class="text-red-300 cursor-not-allowed font-semibold text-xs uppercase" />
-<Component color='red' isDisabled={false} /> // <span class="text-red-500 cursor-not-allowed font-semibold text-xs uppercase" />
+<Component color='red' isDisabled={false} /> // <span class="text-red-500 font-semibold text-xs uppercase" />
 <Component /> // <span class="font-semibold text-xs uppercase" />
 ```
 
