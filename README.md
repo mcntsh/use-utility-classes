@@ -139,7 +139,7 @@ const Component = ({ color, isDisabled }) => {
 
 ## HOC
 
-An HOC helper is also included in this package which will pass the hook via props. It can be used like so:
+An HOC helper is also included in this package which will pass the hook via props:
 
 ```javascript
 import withSetClassName from 'use-utility-classes/react'
@@ -164,7 +164,7 @@ const WrappedComponent = withSetClassName(Component /*, { debug: true, prefix: '
 
 ## Prefixes
 
-You can pass a `prefix` option if you'd like a prefix automatically appended to your utility classes:
+You can pass a `prefix` option if you'd like one appended to your classes:
 
 ```javascript
 import useUtilityClasses from 'use-utility-classes'
@@ -182,7 +182,7 @@ const Component = props => {
 
 ## Debugging
 
-Debugging utility classes can be hard when you look at the DOM. You can pass an option to make the classes more legible while you're doing development:
+You can pass an option to make the classes more legible while you're doing development:
 
 ```javascript
 import useUtilityClasses from 'use-utility-classes'
@@ -200,7 +200,7 @@ const Component = props => {
 }
 ```
 
-When your className is rendered in the DOM, it will list out the enabled *and* the disabled classes by the order they were passed to the `setClassName` function:
+The outputs of your conditions will be listed and marked as enabled or disabled:
 
 ```javascript
 <Component isLoading={false} />
