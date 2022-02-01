@@ -2,6 +2,14 @@
 
 Make your component's class-names reactive to your component state. Ideally used in conjunction with a utility-CSS framework like [Tailwind](https://tailwindcss.com/) or [Tachyons](https://tachyons.io/).
 
+------
+
+1. [Install](#install)
+2. [Use](#use)
+3. [HOC](#hoc)
+4. [Prefixes](#prefixes)
+5. [Debugging](#debugging)
+
 ## Install
 
 - `npm install use-utility-classes` or
@@ -125,65 +133,38 @@ const Component = ({ color, isDisabled }) => {
 ```
 ```javascript
 <Component color='red' isDisabled={true} /> // <span class="text-red-300 cursor-not-allowed font-semibold text-xs uppercase" />
+<Component color='red' isDisabled={false} /> // <span class="text-red-500 font-semibold text-xs uppercase" />
 <Component /> // <span class="font-semibold text-xs uppercase" />
 ```
 
-Here's a real world example of a `Button` component using Tailwind, with a ghost/default variaton and a loading state:
+## HOC
+
+An HOC helper is also included in this package which will pass the hook via props:
 
 ```javascript
-import useUtilityClasses from 'use-utility-classes'
-import { TEXT_CLASSES } from '../../constants/base-classes'
+import withSetClassName from 'use-utility-classes/react'
 
-const buttonClasses = `
-  tw-border-2 tw-rounded-md tw-px-4
-  tw-py-2 tw-transition-colors
-`
-
-const typeLoadingVariant = {
-  when: { isLoading: true },
-  use: 'tw-cursor-not-allowed tw-border-gray-300 tw-text-gray-400'
+const Component = props => {
+  const className = props.setClassName({
+    when: {
+      color: 'red',
+      isDisabled: false
+    },
+    use: 'text-red-500'
+  })
+  
+  return <span className={className} />
 }
 
-const typeDefaultVariant = {
-  when: { type: 'default', isLoading: false },
-  use: `
-    tw-border-black tw-bg-black hover:tw-bg-gray-700
-    tw-text-white
-  `
-}
-
-const typeDefaultLoadingVariant = {
-  when: { type: 'default', isLoading: true },
-  use: 'tw-bg-gray-300'
-}
-
-const typeGhostVariant = {
-  when: { type: 'ghost', isLoading: false },
-  use: `
-    tw-border-black hover:tw-bg-black hover:tw-text-white
-    tw-text-black tw-bg-white
-  `
-}
-
-const Button = ({ type = 'default', isLoading, children }) => {
-  const setClassName = useUtilityClasses({ type, isLoading })
-
-  const className = setClassName(
-    typeDefaultVariant,
-    typeDefaultLoadingVariant,
-    typeGhostVariant,
-    typeLoadingVariant,
-    buttonClasses,
-    TEXT_CLASSES.CTA
-  )
-
-  return <button className={className}>{children}</button>
-}
+const WrappedComponent = withSetClassName(Component /*, { debug: true, prefix: 'tw-' } */)
+```
+```javascript
+<WrappedComponent color='red' isDisabled={false} /> // <span class="text-red-500"></span>
 ```
 
 ## Prefixes
 
-You can pass a `prefix` option if you'd like a prefix automatically appended to your utility classes:
+You can pass a `prefix` option if you'd like one appended to your classes:
 
 ```javascript
 import useUtilityClasses from 'use-utility-classes'
@@ -201,7 +182,7 @@ const Component = props => {
 
 ## Debugging
 
-Debugging utility classes can be hard when you look at the DOM. You can pass an option to make the classes more legible while you're doing development:
+You can pass an option to make the classes more legible while you're doing development:
 
 ```javascript
 import useUtilityClasses from 'use-utility-classes'
@@ -219,7 +200,7 @@ const Component = props => {
 }
 ```
 
-When your className is rendered in the DOM, it will list out the enabled *and* the disabled classes by the order they were passed to the `setClassName` function:
+The outputs of your conditions will be listed and marked as enabled or disabled:
 
 ```javascript
 <Component isLoading={false} />
