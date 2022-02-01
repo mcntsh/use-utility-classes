@@ -14,7 +14,7 @@ interface WithChildren {
   children?: React.ReactNode
 }
 
-export function withSetClassName<
+export default function withSetClassName<
   T extends WithSetClassNameProps = WithSetClassNameProps
 >(
   WrappedComponent: React.ComponentType<T>,

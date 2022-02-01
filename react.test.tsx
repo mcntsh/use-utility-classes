@@ -1,7 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
 import { ClassNameCreator } from './'
-import { withSetClassName } from './react'
+import withSetClassName from './react'
 
 type ReactComponentProps = {
   type?: 'A' | 'B' | 'C'
