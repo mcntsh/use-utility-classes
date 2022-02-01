@@ -20,5 +20,5 @@
     "target": "es5",
     "jsx": "react"
   },
-  "files": ["index.ts"]
+  "files": ["index.ts", "react.ts"]
 }
