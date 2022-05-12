@@ -4,7 +4,8 @@ exports[`passes the debug option to the setClassName helper 1`] = `
 <div
   className="
 • a
-• ab"
+• ab
+×⠀default"
   color="B"
   id="3"
 >
@@ -70,7 +71,7 @@ Array [
 
 exports[`renders the wrapped component as you would expect using the withSetClassName HOC 1`] = `
 <div
-  className=""
+  className="default"
   id="foo"
 >
   <div

@@ -4,7 +4,7 @@ import { ClassNameCreator } from './'
 import withSetClassName from './react'
 
 type ReactComponentProps = {
-  type?: 'A' | 'B' | 'C'
+  type?: string
   color?: 'B' | 'D'
   id?: string
   children?: React.ReactNode
@@ -20,12 +20,20 @@ function ReactComponent({ type, children, setClassName, ...props }: ReactCompone
     when: { type: 'A', color: 'B' },
     use: 'ab',
   }
+  const defaultVariant = {
+    when: { type: 'DEFAULT' },
+    use: 'default'
+  }
 
   return (
-    <div className={setClassName(aVariant, abVariant)} {...props}>
+    <div className={setClassName(aVariant, abVariant, defaultVariant)} {...props}>
       {children}
     </div>
   )
+}
+
+ReactComponent.defaultProps = {
+  type: 'DEFAULT'
 }
 
 test('renders the wrapped component as you would expect using the withSetClassName HOC', () => {

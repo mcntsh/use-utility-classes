@@ -26,7 +26,10 @@ export default function withSetClassName<
   const ComponentWithSetClassName = (
     props: Omit<T, keyof WithSetClassNameProps> & WithChildren
   ) => {
-    const usableProps: Record<string, any> = omitBy(props, isObjectLike)
+    const usableProps: Record<string, any> = omitBy(
+      { ...(WrappedComponent.defaultProps || {}), ...props },
+      isObjectLike
+    )
     const setClassName = useUtilityClasses(usableProps, options)
 
     return React.createElement(
